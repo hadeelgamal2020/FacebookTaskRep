@@ -1,0 +1,51 @@
+package MyPackage;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class Login 
+{
+
+	public static void main(String[] args) 
+	{  
+	      
+        // System Property for Chrome Driver   
+     System.setProperty("webdriver.chrome.driver", "C:\\Users\\hg250102\\Desktop\\ChromeDriver\\chromedriver.exe");  
+       
+          // Instantiate a ChromeDriver class.     
+     WebDriver driver=new ChromeDriver();  
+       
+        // Launch Website  
+     driver.navigate().to("https://www.facebook.com/");  
+       
+      //Maximize the browser  
+       driver.manage().window().maximize();  
+       
+       try 
+		{ 
+			// Select the unique element
+			driver.findElement(By.id("email")).sendKeys("Hadeel.Gamal@gmail.com");
+			driver.findElement(By.id("pass")).sendKeys("Test123");
+			
+			driver.findElement(By.id("u_0_b")).click();
+			
+			String title = driver.getTitle();
+			
+	        if (title.matches("Facebook – log in or sign up"))
+	        	System.out.println("Registration Happy Scenario Test : Failed");
+	        else
+	        	System.out.println("Registration Happy Scenario Test : Passed");
+		}
+		
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			
+		}
+     }  
+
+}  
+

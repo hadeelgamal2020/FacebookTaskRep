@@ -1,0 +1,48 @@
+package MyPackage;
+
+import java.io.*;
+
+// Import packages for Apache POI library. 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+public class WriteExcelFile {
+	
+	XSSFWorkbook work_book;
+	XSSFSheet sheet;
+
+	public static void main(String[] args) throws IOException {
+
+		// locate the path of excel.
+		FileInputStream fileRead = new FileInputStream(new File(System.getProperty("user.dir") + "\\input.xlsx"));
+
+		// initialize the excel as a workbook.
+		XSSFWorkbook work_book = new XSSFWorkbook(fileRead);
+
+		// 0 denotes to the first sheet of the workbook.
+		XSSFSheet sheet = work_book.getSheetAt(0);
+
+		// Cell location where update the data.
+		Cell Write = sheet.getRow(0).getCell(2);
+
+		// Value to set into Cell
+		Write.setCellValue("String");
+
+		// Read Cell from Excel file
+		String str = sheet.getRow(0).getCell(0).getStringCellValue();
+
+		// Print Write cell from Excel file
+		System.out.println(str);
+
+		// Define the path of output excel file
+		FileOutputStream fileWrite = new FileOutputStream(new File(System.getProperty("user.dir") + "\\input.xlsx"));
+
+		// Update the output file on defined location.
+		work_book.write(fileWrite);
+
+		// Close the Excel file
+		fileWrite.close();
+
+	}
+}

@@ -1,0 +1,65 @@
+package MyPackage;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+public class Registeration {
+
+	public static void main(String[] args) {
+		// System Property for Chrome Driver
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\hg250102\\Desktop\\ChromeDriver\\chromedriver.exe");
+
+		// Instantiate a ChromeDriver class.
+		WebDriver driver = new ChromeDriver();
+
+		// Launch Website
+		driver.navigate().to("https://www.facebook.com/");
+
+		// Maximize window
+		driver.manage().window().maximize();
+
+		try {
+			// Select the unique element
+			driver.findElement(By.id("u_0_m")).sendKeys("Hadeel");
+			driver.findElement(By.id("u_0_o")).sendKeys("Orief");
+			driver.findElement(By.id("u_0_r")).sendKeys("Hadeel.Gamal@yahoo.com");
+			driver.findElement(By.id("u_0_u")).sendKeys("Hadeel.Gamalm");
+			driver.findElement(By.id("u_0_w")).sendKeys("23456");
+
+			Select Daydropdown = new Select(driver.findElement(By.id("day")));
+			Daydropdown.selectByValue("21");
+
+			Select Monthdropdown = new Select(driver.findElement(By.id("month")));
+			Monthdropdown.selectByValue("7");
+
+			Select Yeardropdown = new Select(driver.findElement(By.id("year")));
+			Yeardropdown.selectByValue("1992");
+
+			driver.findElement(By.id("u_0_6")).click();
+			driver.findElement(By.id("u_0_13")).click();
+			Thread.sleep(5000);
+
+			String title = driver.getTitle();
+
+			if (title.matches("Facebook – log in or sign up"))
+				System.out.println("Registration Happy Scenario Test : Failed");
+			else
+				System.out.println("Registration Happy Scenario Test : Passed");
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+
+		}
+
+	}
+
+}

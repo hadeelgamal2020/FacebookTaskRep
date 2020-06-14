@@ -1,0 +1,87 @@
+package MyPackage;
+
+import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+public class Registeration {
+
+	public WebDriver driver;
+
+	@BeforeMethod
+	public void setUp() throws Exception {
+		// System Property for Chrome Driver
+		System.setProperty("webdriver.chrome.driver", "C:\\Users\\hg250102\\Desktop\\ChromeDriver\\chromedriver.exe");
+
+		// Instantiate a ChromeDriver class.
+		driver = new ChromeDriver();
+
+		// Launch Website
+		driver.navigate().to("https://www.facebook.com/");
+
+		// Maximize the browser
+		driver.manage().window().maximize();
+	}
+
+	@Test(dataProvider = "testdata")
+	public void demoClass(String firstname, String surname, String email, String confemail, String password, String selecteday, String selectedmonth, String selectedyear) {
+		try {
+			// Select the unique element
+			driver.findElement(By.id("u_0_m")).sendKeys(firstname);
+			driver.findElement(By.id("u_0_o")).sendKeys(surname);
+			driver.findElement(By.id("u_0_r")).sendKeys(email);
+			driver.findElement(By.id("u_0_u")).sendKeys(confemail);
+			driver.findElement(By.id("u_0_w")).sendKeys(password);
+
+			Select Daydropdown = new Select(driver.findElement(By.id(selecteday)));
+			Daydropdown.selectByValue("selecteday");
+
+			Select Monthdropdown = new Select(driver.findElement(By.id(selectedmonth)));
+			Monthdropdown.selectByValue("selectemonth");
+
+			Select Yeardropdown = new Select(driver.findElement(By.id(selectedyear)));
+			Yeardropdown.selectByValue("selectedyear");
+
+			driver.findElement(By.id("u_0_6")).click();
+			driver.findElement(By.id("u_0_13")).click();
+			Thread.sleep(5000);
+
+			String title = driver.getTitle();
+
+			if (title.matches("Facebook – log in or sign up"))
+				System.out.println("Registration Happy Scenario Test : Failed");
+			else
+				System.out.println("Registration Happy Scenario Test : Passed");
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+
+		}
+
+	}
+
+	@AfterMethod
+	void ProgramTermination() {
+		driver.quit();
+	}
+
+	@DataProvider(name = "testdata")
+	public Object[][] testDataExample() {
+		ReadExcelFile configuration = new ReadExcelFile("R:\\Personal\\Instabug Challenge\\Login_Testdata.xlsx");
+		int rows = configuration.getRowCount(0);
+		Object[][] signin_credentials = new Object[rows][2];
+
+		for (int i = 0; i < rows; i++) {
+			signin_credentials[i][0] = configuration.getData(0, i, 0);
+			signin_credentials[i][1] = configuration.getData(0, i, 1);
+		}
+		return signin_credentials;
+	}
+
+}
